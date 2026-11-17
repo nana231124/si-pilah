@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d31">
+  <title>Si-Pilah | Deteksi Sampah</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#beranda" aria-label="Si-Pilah beranda">
+      <span class="brand-mark">♻</span>
+      <span><strong>SI-PILAH</strong><small>AI Waste Detection System</small></span>
+    </a>
+    <span class="top-status"><i></i><span id="backendStatus">Memeriksa backend...</span></span>
+  </header>
+
+  <main class="container" id="beranda">
+    <section class="hero">
+      <p class="eyebrow">SMART WASTE DETECTION</p>
+      <h1>Kenali Sampahmu,<br><span>Mulai Pilah dengan Benar.</span></h1>
+      <p class="hero-copy">Deteksi beberapa objek sampah organik dan anorganik menggunakan YOLO26.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div><p class="eyebrow">AREA PEMERIKSAAN</p><h2>Pilih metode deteksi</h2></div>
+        <span class="model-chip">YOLO26 · 2 kelas</span>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Metode deteksi">
+        <button class="tab active" id="cameraTab" role="tab" aria-selected="true" type="button">▣ Kamera langsung</button>
+        <button class="tab" id="uploadTab" role="tab" aria-selected="false" type="button">▧ Upload foto</button>
+      </div>
+
+      <section id="cameraPanel" class="panel" role="tabpanel" aria-labelledby="cameraTab">
+        <div class="panel-heading">
+          <div><h3>Kamera langsung</h3><p>Arahkan kamera ke sampah. Deteksi akan berjalan otomatis setelah kamera aktif.</p></div>
+          <span class="pill neutral" id="cameraStatus">Kamera belum aktif</span>
+        </div>
+        <div class="camera-stage" id="cameraStage">
+          <video id="cameraVideo" autoplay muted playsinline></video>
+          <canvas id="cameraOverlay"></canvas>
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <div class="placeholder-icon">▣</div>
+            <strong>Pratinjau kamera</strong>
+            <span>Tekan “Buka kamera” untuk memulai deteksi real-time.</span>
+          </div>
+          <span class="live-label" id="liveLabel" hidden><i></i> LIVE DETECTION</span>
+        </div>
+        <div class="camera-controls">
+          <label class="select-label" for="cameraFacing">Pilih kamera</label>
+          <select id="cameraFacing">
+            <option value="environment">Kamera belakang</option>
+            <option value="user">Kamera depan</option>
+          </select>
+          <div class="button-group">
+            <button class="btn primary" id="startCamera" type="button">Buka kamera</button>
+            <button class="btn secondary" id="stopCamera" type="button" disabled>Tutup kamera</button>
+          </div>
+        </div>
+        <p class="help-text" id="cameraHelp">Browser akan meminta izin menggunakan kamera. Pilih kamera depan atau belakang sebelum menekan Buka kamera.</p>
+      </section>
+
+      <section id="uploadPanel" class="panel" role="tabpanel" aria-labelledby="uploadTab" hidden>
+        <div class="panel-heading">
+          <div><h3>Upload foto</h3><p>Pilih gambar dari galeri atau penyimpanan perangkat, lalu jalankan analisis.</p></div>
+          <span class="pill neutral">JPG · PNG · WEBP</span>
+        </div>
+        <label class="upload-area" id="uploadArea" for="photoInput">
+          <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">
+          <span class="upload-icon">＋</span>
+          <strong>Pilih foto dari galeri</strong>
+          <span>Ketuk atau klik di sini untuk memilih gambar</span>
+          <small>Maksimum 15 MB</small>
+        </label>
+        <div class="upload-preview" id="uploadPreview" hidden>
+          <img id="previewImage" alt="Pratinjau foto yang dipilih">
+          <div class="preview-meta"><span id="selectedFileName"></span><button class="text-button" id="removePhoto" type="button">Hapus foto</button></div>
+        </div>
+        <div class="upload-actions">
+          <button class="btn primary" id="analyzePhoto" type="button" disabled>Analisis foto</button>
+          <span class="help-text" id="uploadHelp">Hasil deteksi akan muncul setelah foto dianalisis.</span>
+        </div>
+      </section>
+    </section>
+
+    <section class="results-section">
+      <div class="section-heading result-heading">
+        <div><p class="eyebrow">RINGKASAN</p><h2>Hasil pemeriksaan</h2></div>
+        <span class="pill neutral" id="resultStatus">Belum ada pemeriksaan</span>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card"><span class="stat-icon organic">♧</span><strong id="organicCount">0</strong><span>Organik</span></article>
+        <article class="stat-card"><span class="stat-icon inorganic">♻</span><strong id="inorganicCount">0</strong><span>Anorganik</span></article>
+        <article class="stat-card"><span class="stat-icon total">▦</span><strong id="totalCount">0</strong><span>Total objek</span></article>
+      </div>
+      <div class="detection-list" id="detectionList"><div class="empty-state"><span>✧</span><div><strong>Belum ada hasil deteksi</strong><p>Aktifkan kamera atau unggah foto untuk memeriksa sampah.</p></div></div></div>
+      <p class="disclaimer">Hasil deteksi merupakan prediksi model AI dan dapat dipengaruhi pencahayaan, jarak, serta kondisi objek.</p>
+    </section>
+  </main>
+
+  <footer><strong>SI-PILAH</strong><span>·</span> Smart Waste Detection System</footer>
+  <script src="app.js"></script>
+</body>
+</html>

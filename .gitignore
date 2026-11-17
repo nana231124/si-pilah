@@ -1,0 +1,17 @@
+
+# Python environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Model training outputs
+runs/
+
+# Environment secrets
+.env
+
+# Editor and operating system
+.vscode/
+.DS_Store
+Thumbs.db
